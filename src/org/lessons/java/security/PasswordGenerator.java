@@ -9,7 +9,7 @@ public class PasswordGenerator {
 	public static void main(String[] args) {
 		Scanner infoScanner = new Scanner(System.in);
 		PasswordGenerator x = new PasswordGenerator();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 		System.out.println("generatore di password poco sicure");
 		System.out.println("inserisci il tuo nome");
@@ -35,24 +35,41 @@ public class PasswordGenerator {
 		String name;
 		String surname;
 		String color;
-		LocalDate date;
+		int date;
 
 		public Password(String name, String surname, String color, String date) {
 			this.name = name;
 			this.surname = surname;
 			this.color = color;
-			this.date = this.format(date);
+			this.date = this.findSum(date);
 		}
 
-		private LocalDate format(String date) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDate parsedDate = LocalDate.parse(date, formatter);
-			return parsedDate;
+		/*
+		 * private LocalDate format(String date) { DateTimeFormatter formatter =
+		 * DateTimeFormatter.ofPattern("dd/MM/yyyy"); LocalDate parsedDate =
+		 * LocalDate.parse(date, formatter); return parsedDate; }
+		 */
+
+		static int findSum(String str) {
+			String tempString = "";
+			int sum = 0;
+
+			for (int i = 0; i < str.length(); i++) {
+				char ch = str.charAt(i);
+				if (Character.isDigit(ch))
+					tempString += ch;
+
+				{
+					sum += Integer.parseInt(tempString);
+					tempString = "0";
+				}
+			}
+			return sum + Integer.parseInt(tempString);
 		}
 
 		public String generatePassword() {
 
-			String password = this.name + "-" + this.surname + "-" + this.color + "-" + this.date.getYear();
+			String password = this.name + "-" + this.surname + "-" + this.color + "-" + this.date;
 			return password;
 
 		}
